@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premio Especial</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Georgia,serif}
+body{height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center;background:radial-gradient(circle at center,#2b1d0e,#120b05 60%,#000);color:white;text-align:center}
+.card{background:rgba(0,0,0,.45);padding:50px;border-radius:30px;max-width:800px;width:90%;box-shadow:0 0 40px rgba(255,215,0,.3)}
+.title{font-size:3rem;color:gold;margin-bottom:20px}
+.subtitle{font-size:1.4rem;line-height:1.5}
+button{margin-top:30px;padding:16px 35px;font-size:1.1rem;border:none;border-radius:50px;cursor:pointer;background:linear-gradient(45deg,#ffd700,#ffb700);color:black;font-weight:bold}
+.hidden{display:none}
+#winner{font-size:4rem;font-weight:bold;color:#ffd700;margin-top:30px}
+#love{margin-top:25px;font-size:2rem;color:#ffd9e8}
+.confetti{position:absolute;font-size:30px;animation:fall linear forwards}
+@keyframes fall{from{transform:translateY(-100px)}to{transform:translateY(120vh)}}
+</style>
+</head>
+<body>
+
+<audio id="bgmusic" loop>
+<source src="Mac Miller - Congratulations (feat. Bilal)(MP3_160K).mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+<div id="inicio">
+<div class="title">🏆 Premio Especial</div>
+<button onclick="abrir1()">Abrir Premio</button>
+</div>
+
+<div id="fase2" class="hidden">
+<div class="title">Premio para la mejor actriz de la noche</div>
+<div class="subtitle">✨ Y para la mejor actriz del mundo ✨</div>
+<button onclick="abrir2()">Descubrir Ganadora</button>
+</div>
+
+<div id="fase3" class="hidden">
+<h2>🥁🥁🥁</h2>
+<h1>Y el premio es para...</h1>
+<div id="winner"></div>
+<div id="love"></div>
+</div>
+</div>
+
+<script>
+function abrir1(){
+ document.getElementById("bgmusic").play();
+ document.getElementById("inicio").classList.add("hidden");
+ document.getElementById("fase2").classList.remove("hidden");
+}
+function abrir2(){
+ document.getElementById("fase2").classList.add("hidden");
+ document.getElementById("fase3").classList.remove("hidden");
+ setTimeout(()=>{document.getElementById("winner").innerHTML="🥁";},1000);
+ setTimeout(()=>{document.getElementById("winner").innerHTML="🥁🥁";},2000);
+ setTimeout(()=>{document.getElementById("winner").innerHTML="🥁🥁🥁";},3000);
+ setTimeout(()=>{
+   document.getElementById("winner").innerHTML="✨ NICOLE BRAVO ✨";
+   document.getElementById("love").innerHTML="💖 Te amo mucho 💖";
+   confeti();
+ },4500);
+}
+function confeti(){
+ const e=["🎉","✨","💖","🌸","🏆","⭐"];
+ for(let i=0;i<120;i++){
+  const c=document.createElement("div");
+  c.className="confetti";
+  c.innerHTML=e[Math.floor(Math.random()*e.length)];
+  c.style.left=Math.random()*100+"vw";
+  c.style.animationDuration=(Math.random()*3+3)+"s";
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),7000);
+ }
+}
+</script>
+</body>
+</html>
