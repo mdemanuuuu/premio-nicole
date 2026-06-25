@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nicole Awards GOD MODE</title>
+<style>
+body{margin:0;background:radial-gradient(circle,#111,#000);color:white;font-family:Arial;text-align:center;overflow-x:hidden}
+section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px}
+.hidden{display:none}
+button{padding:16px 32px;border:none;border-radius:50px;background:gold;font-size:18px;font-weight:bold;cursor:pointer}
+img{max-width:340px;border:10px solid gold;border-radius:25px;box-shadow:0 0 50px gold}
+#count{font-size:140px;color:gold}
+#flash{position:fixed;inset:0;background:white;opacity:0;pointer-events:none}
+#stars{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+.star{position:absolute;color:white;animation:twinkle 3s infinite}
+@keyframes twinkle{50%{opacity:.2}}
+.float{position:fixed;pointer-events:none;font-size:30px;animation:fall linear forwards}
+@keyframes fall{from{transform:translateY(-10vh)}to{transform:translateY(110vh)}}
+.glow{animation:pulse 2s infinite}
+@keyframes pulse{50%{text-shadow:0 0 30px gold}}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div id="flash"></div>
+
+<audio id="music">
+<source src="Mac Miller - Congratulations (feat. Bilal)(MP3_160K).mp3" type="audio/mpeg">
+</audio>
+
+<section id="s1">
+<h1 class="glow">👑 NICOLE AWARDS GOD MODE 👑</h1>
+<p>La ceremonia definitiva.</p>
+<button onclick="start()">Entrar</button>
+</section>
+
+<section id="s2" class="hidden">
+<h1>🎫 Invitación VIP</h1>
+<p>Asiento reservado para Nicole Bravo</p>
+<button onclick="go('s2','s3')">Aceptar Invitación</button>
+</section>
+
+<section id="s3" class="hidden">
+<h1>📸 Alfombra Roja</h1>
+<p>La invitada de honor ha llegado.</p>
+<button onclick="countdown()">Entrar al Teatro</button>
+</section>
+
+<section id="s4" class="hidden">
+<h1>🥁 Cuenta regresiva</h1>
+<div id="count">5</div>
+</section>
+
+<section id="s5" class="hidden">
+<h1>🏆 Y la ganadora es...</h1>
+<h1 class="glow">✨ NICOLE BRAVO ✨</h1>
+<img src="nicole.jpg">
+<button onclick="go('s5','s6')">Continuar</button>
+</section>
+
+<section id="s6" class="hidden">
+<h1>🌍 Resultado Mundial</h1>
+<h2 id="votes">0 votos</h2>
+<p>Resultado final: 100% Nicole Bravo</p>
+<button onclick="go('s6','s7')">Libro 📖</button>
+</section>
+
+<section id="s7" class="hidden">
+<h1>📖 Libro de Recuerdos</h1>
+<img id="album" src="nicole.jpg">
+<p id="cap">La protagonista de esta noche ✨</p>
+<button onclick="prevPic()">⬅️</button>
+<button onclick="nextPic()">➡️</button>
+<br><br>
+<button onclick="go('s7','s8')">Carta ❤️</button>
+</section>
+
+<section id="s8" class="hidden">
+<h1>💌</h1>
+<p>Bueno, estoy súper orgullosa de ti, de cómo logras todo lo que te propones y de lo bien que te sale, aunque digas que no.</p>
+<p>Así que tu premio individual ya lo tienes. ❤️</p>
+<button onclick="go('s8','s9')">Certificado 📜</button>
+</section>
+
+<section id="s9" class="hidden">
+<h1>📜 Certificado Oficial</h1>
+<img src="nicole.jpg">
+<button onclick="window.print()">Descargar PDF</button>
+<button onclick="go('s9','s10')">Final</button>
+</section>
+
+<section id="s10" class="hidden">
+<h1>🏆 Premios Ganados</h1>
+<h2 id="awards">1</h2>
+<p>Pero hay uno que vale más que todos...</p>
+<h1>❤️ Mi corazón ❤️</h1>
+<p>💖 TE AMO MUCHO 💖</p>
+<button onclick="secret()">No tocar 👀</button>
+<p id="secretMsg"></p>
+</section>
+
+<script>
+const pics=[
+['nicole.jpg','La protagonista de esta noche ✨'],
+['foto2.jpg','Uno de mis recuerdos favoritos ❤️'],
+['foto3.jpg','Momentos que siempre guardaré 🌹'],
+['foto4.jpg','Y todavía quedan muchos recuerdos por crear 💖']
+];
+let p=0;
+
+function start(){
+music.currentTime=10;
+music.play();
+go('s1','s2');
+}
+
+function go(a,b){
+document.getElementById(a).classList.add('hidden');
+document.getElementById(b).classList.remove('hidden');
+}
+
+function countdown(){
+go('s3','s4');
+let n=5;
+let t=setInterval(()=>{
+count.textContent=n;
+flash();
+n--;
+if(n<0){
+clearInterval(t);
+go('s4','s5');
+}
+},1000);
+}
+
+function flash(){
+let f=document.getElementById('flash');
+f.style.opacity='1';
+setTimeout(()=>f.style.opacity='0',120);
+}
+
+function nextPic(){
+p=(p+1)%pics.length;
+album.src=pics[p][0];
+cap.textContent=pics[p][1];
+}
+function prevPic(){
+p=(p-1+pics.length)%pics.length;
+album.src=pics[p][0];
+cap.textContent=pics[p][1];
+}
+
+function secret(){
+secretMsg.innerHTML='👑 Premio oculto desbloqueado: Persona Favorita del Universo ❤️';
+}
+
+for(let i=0;i<80;i++){
+let s=document.createElement('div');
+s.className='star';
+s.innerHTML='✦';
+s.style.left=Math.random()*100+'vw';
+s.style.top=Math.random()*100+'vh';
+stars.appendChild(s);
+}
+
+setInterval(()=>{
+let e=document.createElement('div');
+e.className='float';
+e.innerHTML=['🌹','🦋','💖','✨','🎆','👑'][Math.floor(Math.random()*6)];
+e.style.left=Math.random()*100+'vw';
+e.style.animationDuration=(4+Math.random()*4)+'s';
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),8000);
+},150);
+
+let v=0;
+setInterval(()=>{
+if(document.getElementById('votes')){
+v+=Math.floor(Math.random()*50000);
+votes.innerText=v.toLocaleString()+' votos';
+}
+},100);
+
+const nums=[1,5,20,100,999,9999,'∞'];
+let i=0;
+setInterval(()=>{
+if(document.getElementById('awards')){
+awards.innerText=nums[i%nums.length];
+i++;
+}
+},700);
+</script>
+</body>
+</html>
